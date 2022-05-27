@@ -5,6 +5,7 @@ from core.utils import make_atari, WarpFrame, EpisodicLifeEnv
 from core.dataset import Transforms
 from .env_wrapper import AtariWrapper
 from .model import EfficientZeroNet
+from gym.wrappers import RecordVideo
 
 
 class AtariConfig(BaseConfig):
@@ -19,8 +20,8 @@ class AtariConfig(BaseConfig):
             checkpoint_interval=100,
             target_model_interval=200,
             save_ckpt_interval=10000,
-            max_moves=108000,
-            test_max_moves=12000,
+            max_moves=10000,
+            test_max_moves=10000,
             history_length=400,
             discount=0.997,
             dirichlet_alpha=0.3,
@@ -28,11 +29,11 @@ class AtariConfig(BaseConfig):
             num_simulations=50,
             batch_size=256,
             td_steps=5,
-            num_actors=1,
+            num_actors=5,
             # network initialization/ & normalization
             episode_life=True,
             init_zero=True,
-            clip_reward=True,
+            clip_reward=False,
             # storage efficient
             cvt_string=True,
             image_based=True,
@@ -148,8 +149,7 @@ class AtariConfig(BaseConfig):
             env.seed(seed)
 
         if save_video:
-            from gym.wrappers import Monitor
-            env = Monitor(env, directory=save_path, force=True, video_callable=video_callable, uid=uid)
+            env = RecordVideo(env,video_folder=f'{save_path}{uid}', episode_trigger=video_callable)
         return AtariWrapper(env, discount=self.discount, cvt_string=self.cvt_string)
 
     def scalar_reward_loss(self, prediction, target):

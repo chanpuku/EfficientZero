@@ -30,6 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_video', action='store_true', default=False, help='save video in test.')
     parser.add_argument('--force', action='store_true', default=False,
                         help='Overrides past results (default: %(default)s)')
+    parser.add_argument('--num_actors', type=int, default=1, help='number of self-play actors')
     parser.add_argument('--cpu_actor', type=int, default=14, help='batch cpu actor')
     parser.add_argument('--gpu_actor', type=int, default=20, help='batch bpu actor')
     parser.add_argument('--p_mcts_num', type=int, default=8, help='number of parallel mcts')
@@ -51,7 +52,7 @@ if __name__ == '__main__':
                         help='Style of augmentation')
     parser.add_argument('--info', type=str, default='none', help='debug string')
     parser.add_argument('--load_model', action='store_true', default=False, help='choose to load model')
-    parser.add_argument('--model_path', type=str, default='./results/test_model.p', help='load model path')
+    parser.add_argument('--model_path', type=str, default='./results/atari/none/MsPacmanNoFrameskip-v0/seed=0/Sat May 14 12:09:35 2022/model.p', help='load model path')
     parser.add_argument('--object_store_memory', type=int, default=150 * 1024 * 1024 * 1024, help='object store memory')
 
     # Process arguments
@@ -61,8 +62,8 @@ if __name__ == '__main__':
         ' Revisit policy search rate should be in [0,1]'
 
     if args.opr == 'train':
-        ray.init(num_gpus=args.num_gpus, num_cpus=args.num_cpus,
-                 object_store_memory=args.object_store_memory)
+        #ray.init(num_gpus=args.num_gpus, num_cpus=args.num_cpus,object_store_memory=args.object_store_memory)
+        ray.init()
     else:
         ray.init()
 

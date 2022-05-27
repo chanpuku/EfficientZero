@@ -381,6 +381,7 @@ class BaseConfig(object):
         self.use_max_priority = args.use_max_priority if self.use_priority else False
         self.debug = args.debug
         self.device = args.device
+        self.num_actors=args.num_actors
         self.cpu_actor = args.cpu_actor
         self.gpu_actor = args.gpu_actor
         self.p_mcts_num = args.p_mcts_num
